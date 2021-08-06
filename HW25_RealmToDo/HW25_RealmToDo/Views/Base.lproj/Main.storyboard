@@ -10,7 +10,7 @@
         <!--Tasks List-->
         <scene sceneID="5Z8-wr-CWb">
             <objects>
-                <tableViewController id="giJ-wB-pSg" sceneMemberID="viewController">
+                <tableViewController id="giJ-wB-pSg" customClass="TasksListViewController" customModule="HW25_RealmToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mkS-G5-guA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,6 +22,9 @@
                                 <segment title="A-Z"/>
                                 <segment title="Date"/>
                             </segments>
+                            <connections>
+                                <action selector="sortingList:" destination="giJ-wB-pSg" eventType="valueChanged" id="4mo-CF-TD8"/>
+                            </connections>
                         </segmentedControl>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskListCell" textLabel="Wsl-K5-hYr" detailTextLabel="tNu-IR-Ao6" style="IBUITableViewCellStyleValue1" id="9kq-pC-naT">
@@ -59,17 +62,21 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Tasks List" id="XvT-x5-WEC">
                         <barButtonItem key="leftBarButtonItem" title="Edit" id="KW0-ug-CHU"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ttY-Qc-sjP"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ttY-Qc-sjP">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="giJ-wB-pSg" id="vUW-sa-eEg"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YlQ-4Y-wb4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="624.63768115942037" y="276.5625"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Tasks View Controller-->
         <scene sceneID="HcO-gL-gNS">
             <objects>
-                <tableViewController id="nM5-8I-scB" sceneMemberID="viewController">
+                <tableViewController id="nM5-8I-scB" customClass="TasksViewController" customModule="HW25_RealmToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Lkz-EZ-HlO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
