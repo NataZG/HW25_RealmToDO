@@ -6,3 +6,15 @@
 //
 
 import Foundation
+import RealmSwift
+
+let realm = try! Realm()
+
+class StorageManager {
+
+    static func deleteAll() {
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
+}
