@@ -19,7 +19,7 @@ class TasksListViewController: UITableViewController {
         super.viewDidLoad()
 
         // Clean Realm DB
-        StorageManager.deleteAll()
+        //StorageManager.deleteAll()
 
         // DB + sorting
         tasksLists = realm.objects(TasksList.self).sorted(byKeyPath: "name")
@@ -45,6 +45,12 @@ class TasksListViewController: UITableViewController {
 
 
     @IBAction func sortingList(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            tasksLists = tasksLists.sorted(byKeyPath: "name")
+        } else {
+            tasksLists = tasksLists.sorted(byKeyPath: "date")
+        }
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -56,6 +62,9 @@ class TasksListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
+        let tasksList = tasksLists[indexPath.row]
+        cell.textLabel?.text = tasksList.name
+        cell.detailTextLabel?.text = String(tasksList.tasks.count)
         return cell
     }
 
@@ -132,7 +141,7 @@ class TasksListViewController: UITableViewController {
             alertTextField = textField
             alertTextField.placeholder = "List Name"
         }
- if let listName = listName
+
         present(alert, animated: true)
     }
 
