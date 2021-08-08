@@ -37,6 +37,7 @@ class TasksListViewController: UITableViewController {
                 print("error: \(error)")
             }
         }
+        navigationItem.leftBarButtonItem = editButtonItem
     }
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -66,6 +67,27 @@ class TasksListViewController: UITableViewController {
         cell.textLabel?.text = tasksList.name
         cell.detailTextLabel?.text = String(tasksList.tasks.count)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let currentList = tasksLists[indexPath.row]
+        let deleteContextItem = UIContextualAction(style: .destructive, title: "Delete") {_,_,_ in
+            
+        }
+        let editContextItem = UIContextualAction(style: .destructive, title: "Edit") {_,_,_ in
+            
+        }
+        let doneContextItem = UIContextualAction(style: .destructive, title: "Done") {_,_,_ in
+            
+        }
+        
+        editContextItem.backgroundColor = .orange
+        doneContextItem.backgroundColor = .green
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteContextItem, editContextItem, doneContextItem])
+        
+        return swipeActions
     }
 
     /*
