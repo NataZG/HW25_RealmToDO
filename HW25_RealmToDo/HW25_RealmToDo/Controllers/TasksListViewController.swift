@@ -73,7 +73,7 @@ class TasksListViewController: UITableViewController {
         
         let currentList = tasksLists[indexPath.row]
         let deleteContextItem = UIContextualAction(style: .destructive, title: "Delete") {_,_,_ in
-            
+            StorageManager.deleteItem(taskList: currentList)
         }
         let editContextItem = UIContextualAction(style: .destructive, title: "Edit") {_,_,_ in
             
