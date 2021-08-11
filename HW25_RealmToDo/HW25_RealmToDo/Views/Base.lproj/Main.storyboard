@@ -114,8 +114,16 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="oku-KI-E1F">
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="pM5-K6-m2b"/>
-                            <barButtonItem title="Edit" id="bt0-He-tYl"/>
+                            <barButtonItem systemItem="add" id="pM5-K6-m2b">
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="nM5-8I-scB" id="6X1-tk-6kl"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Edit" id="bt0-He-tYl">
+                                <connections>
+                                    <action selector="editButtonPressed:" destination="nM5-8I-scB" id="7GM-QF-DAx"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
@@ -128,8 +136,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6os-si-wtw" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uat-FG-Xau">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="uat-FG-Xau">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
