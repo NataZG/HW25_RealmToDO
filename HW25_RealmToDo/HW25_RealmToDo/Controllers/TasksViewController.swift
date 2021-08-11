@@ -85,15 +85,15 @@ class TasksViewController: UITableViewController {
 
         return swipeActions
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         try! realm.write {
             let tappedItem = incomplete[indexPath.row] as Task
             tappedItem.isComplete = !tappedItem.isComplete }
         tableView.reloadData()
     }
-    
-    
+
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
