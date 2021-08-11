@@ -64,31 +64,39 @@ class TasksListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
         let tasksList = tasksLists[indexPath.row]
-        cell.textLabel?.text = tasksList.name
-        cell.detailTextLabel?.text = String(tasksList.tasks.count)
+       // cell.textLabel?.text = tasksList.name
+       // cell.detailTextLabel?.text = String(tasksList.tasks.count)
+        cell.configure(with: tasksList)
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
+
         let currentList = tasksLists[indexPath.row]
-        let deleteContextItem = UIContextualAction(style: .destructive, title: "Delete") {_,_,_ in
-            StorageManager.deleteItem(taskList: currentList)
+        let deleteContextItem = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            // StorageManager.deleteItem(taskList: currentList)
+            StorageManager.deleteList(currentList)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        
-        
-        let editContextItem = UIContextualAction(style: .destructive, title: "Edit") {_,_,_ in
-    
+
+
+        let editContextItem = UIContextualAction(style: .destructive, title: "Edit") { _, _, _ in
+            self.alertForAddAndUpdateList(currentList, completion: {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+
         }
-        let doneContextItem = UIContextualAction(style: .destructive, title: "Done") {_,_,_ in
-            
+        let doneContextItem = UIContextualAction(style: .destructive, title: "Done") { _, _, _ in
+            StorageManager.makeAllDone(currentList)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+
         }
-        
+
         editContextItem.backgroundColor = .orange
         doneContextItem.backgroundColor = .green
-        
+
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteContextItem, editContextItem, doneContextItem])
-        
+
         return swipeActions
     }
 
@@ -127,17 +135,20 @@ class TasksListViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if let indexPath = tableView.indexPathForSelectedRow {
+            let tasksList = tasksLists[indexPath.row]
+            let tasksVC = segue.destination as! TasksViewController
+            tasksVC.currentTasksList = tasksList
+        }
     }
-    */
+    
 
-    private func alertForAddAndUpdateList() {
+    /*  private func alertForAddAndUpdateList() {
         let title = "New List"
         let message = "Please insert List Name"
 
@@ -155,6 +166,47 @@ class TasksListViewController: UITableViewController {
 
             StorageManager.saveTasksList(taskList: taskList)
             self.tableView.insertRows(at: [IndexPath(row: self.tasksLists.count - 1, section: 0)], with: .automatic)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        alert.addTextField { textField in
+            alertTextField = textField
+            alertTextField.placeholder = "List Name"
+        }
+
+        present(alert, animated: true)
+    } */
+
+    // универсальная функция
+
+    private func alertForAddAndUpdateList(_ listName: TasksList? = nil, completion: (() -> Void)? = nil) {
+        let title = listName == nil ? "New List" : "Edit List"
+        let message = "Please insert List Name"
+
+        let doneButtonName = listName == nil ? "Save" : "Update"
+
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        var alertTextField: UITextField!
+
+        let saveAction = UIAlertAction(title: doneButtonName, style: .default) { _ in
+
+            guard let newList = alertTextField.text, !newList.isEmpty else { return }
+
+            if let listName = listName {
+                StorageManager.editList(listName, newListName: newList)
+                if let completion = completion {
+                    completion()
+                }
+            } else {
+                let tasksList = TasksList()
+                tasksList.name = newList
+
+                StorageManager.saveTasksList(taskList: tasksList)
+                self.tableView.insertRows(at: [IndexPath(row: self.tasksLists.count - 1, section: 0)], with: .automatic)
+            }
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
